@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Person List (localStorage)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Person list</h1>
+    <form id="profileForm">
+        <input type="hidden" id="profileId">
+        <div class="form-group">
+            <label for="firstName">First name:</label>
+            <input type="text" id="firstName" required>
+        </div>
+        <div class="form-group">
+            <label for="lastName">Last name:</label>
+            <input type="text" id="lastName" required>
+        </div>
+        <div class="form-group">
+            <label for="sex">Sex:</label>
+            <select id="sex" required>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+        </div>
+        <button type="submit" id="submitButton">Add Person</button>
+    </form>
+    <hr>
+    <table id="profilesTable">
+        <thead>
+            <tr>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Sex</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="profilesTbody">
+            </tbody>
+    </table>
+
+    <script src="script.js"></script>
+</body>
+</html>
