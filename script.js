@@ -65,6 +65,11 @@ function addElementToPage(arrayProfils) {
         const tr = document.createElement('tr');
         //add tr contient un profil
         tr.innerHTML =
+            `<td>${profil.Firstname}</td>
+            <td>${profil.Lastname}</td>
+            <td>${profil.Firstname}</td>
+            
+            `
             '<td>' + profil.Firstname + '</td>' +
             '<td>' + profil.Lastname + '</td>' +
             '<td>' + profil.sexe + '</td>' +
