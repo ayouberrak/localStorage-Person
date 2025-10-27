@@ -68,15 +68,12 @@ function addElementToPage(arrayProfils) {
             `<td>${profil.Firstname}</td>
             <td>${profil.Lastname}</td>
             <td>${profil.Firstname}</td>
-            
-            `
-            '<td>' + profil.Firstname + '</td>' +
-            '<td>' + profil.Lastname + '</td>' +
-            '<td>' + profil.sexe + '</td>' +
-            '<td class="actions">' +
-            '<button class="edit-btn" data-id="' + profil.id + '">Edit</button>' +
-            '<button class="delete-btn" data-id="' + profil.id + '">Delete</button>' +
-            '</td>';
+            <td>${profil.sexe}</td>
+            <td class="actions">
+            <button class="edit-btn" data-id="${profil.id}">Edit</button>
+            <button class="delete-btn" data-id="${profil.id}">Delete</button>  
+            </td>          
+            `;
         profilesTbody.appendChild(tr);
 
 
