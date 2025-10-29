@@ -1,94 +1,64 @@
-let Firstname = document.querySelector("#firstName");
-let Lastname = document.querySelector("#lastName");
-let sexeInput = document.getElementById('sex');
-let submitButton = document.querySelector("#submitButton");
-let profileForm = document.querySelector("#profileForm");
-let profilesTbody = document.querySelector("#profilesTbody");
+const firstNameInput = document.querySelector("#firstName");
+const lastNameInput = document.querySelector("#lastName");
+const sexeInput = document.getElementById("sexe");
+const profileForm = document.querySelector("#profileForm");
+const profilesTbody = document.querySelector("#profilesTbody");
 
-//tableau des profiles
-let arrayProfils = [];
+// let profiles = JSON.parse(localStorage.getItem("Profils")) || [];
 
+let profiles = [];
 
 if (localStorage.getItem("Profils")) {
-    arrayProfils = JSON.parse(localStorage.getItem("Profils"));
+    profiles = JSON.parse(localStorage.getItem("Profils"));
+} else {
+    profiles = [];
 }
-getDataFromLocalStorage();
+//fonction affiche profil
+AffichierProfiles(profiles);
 
-
-profileForm.addEventListener('submit',function(e){
+// submit form
+profileForm.addEventListener("submit", e => {
     e.preventDefault();
-    if (Firstname.value !== "" && Lastname.value !== "" && sexeInput.value !== "") {
-        addProfilToArray(Firstname.value, Lastname.value, sexeInput.value);//cette fonction permet d'ajouter un profil
-        Firstname.value = "";
-        Lastname.value = "";
-        sexeInput.value = "";
+    const firstName = firstNameInput.value.trim();//assurer bli user ghaydakhel value machi " "
+    const lastName = lastNameInput.value.trim();
+    const sexe = sexeInput.value.trim();
+
+    if(firstName!== ""  &&lastName!== ""  && sexe !== "" ){
+        profiles.push( { id: Date.now(), firstName, lastName, sexe } );
     }
-    
-})
+    addProfilesToLocalStorage();
+    AffichierProfiles(profiles);
+    profileForm.reset();//permet de vider le formulaire 
+});
 
-function addProfilToArray(Firstname, Lastname, sexe) {
-    // let lastId=arrayProfils.length>0 ? (arrayProfils.length-1) : 0;
-    // console.log(lastId);
+// Affichage des profils
+function AffichierProfiles(profiles) {
+    profilesTbody.innerHTML = "";
 
-    // objet contient les info du profil
-    const profil = {
-        id: Date.now(),
-        Firstname: Firstname,
-        Lastname: Lastname,
-        sexe: sexe,
-    }
-    //push profil to array of profils
-    arrayProfils.push(profil);
-    //add to page
-    addElementToPage(arrayProfils);
-    //add localdtorage
-    addtoLocalStorage();//array en parametre
-
-}
-
-
-//ajouter tr au table
-function addElementToPage(arrayProfils) {
-    //empty the profils div
-    profilesTbody.innerHTML = "";//vider le tbody pour eviter le reafichage des element de array (+ avec les new profil)
-    console.log(arrayProfils);
-    
-    if (arrayProfils.length === 0) {
-        const tr = document.createElement('tr');
-        // affichage de message 
-        tr.innerHTML = '<td colspan="4" style="text-align:center;">Aucune personne enregistrée.</td>';
-        profilesTbody.appendChild(tr);
+    if (!profiles.length) {
+        profilesTbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Aucune personne enregistrée.</td></tr>';
         return;
     }
 
-    arrayProfils.forEach((profil) => {
-        const tr = document.createElement('tr');
-        //add tr contient un profil
-        tr.innerHTML =
-            `<td>${profil.Firstname}</td>
-            <td>${profil.Lastname}</td>
-            <td>${profil.Firstname}</td>
+    profiles.forEach(profil => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${profil.firstName}</td>
+            <td>${profil.lastName}</td>
             <td>${profil.sexe}</td>
             <td class="actions">
-            <button class="edit-btn" data-id="${profil.id}">Edit</button>
-            <button class="delete-btn" data-id="${profil.id}">Delete</button>  
-            </td>          
-            `;
+                <button class="edit-btn" data-id="${profil.id}">Edit</button>
+                <button class="delete-btn" data-id="${profil.id}">Delete</button>
+            </td>
+        `;
         profilesTbody.appendChild(tr);
-
-
-    })
-}
-function addtoLocalStorage(){
-    //tringify= convert array/object  to string
-    window.localStorage.setItem("Profils",JSON.stringify(arrayProfils));//localStorage accepte un valeur string non objet/array : that's why stringify?
+    });
 }
 
-function getDataFromLocalStorage(){
-    let Data=window.localStorage.getItem("Profils");
-    if (Data) {
-         let profils=JSON.parse(Data);
-        addElementToPage(profils);
-        
-    }
+// Sauvegarde les profil dans localStorage
+function addProfilesToLocalStorage() {
+    localStorage.setItem("Profils", JSON.stringify(profiles));
 }
+
+
+
