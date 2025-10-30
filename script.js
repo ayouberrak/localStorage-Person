@@ -52,6 +52,7 @@ function AffichierProfiles(profiles) {
             </td>
         `;
         profilesTbody.appendChild(tr);
+        
     });
 }
 
@@ -61,4 +62,39 @@ function addProfilesToLocalStorage() {
 }
 
 
+// Écoute les clics sur les boutons "Edit" et "Delete"
+profilesTbody.addEventListener("click", function(e) {
+    if (e.target.classList.contains("delete-btn")) {
+        const id = Number(e.target.dataset.id);
+        supprimerProfil(id);
+    }
 
+
+    if (e.target.classList.contains("edit-btn")) {
+        const id = Number(e.target.dataset.id);
+        modifierProfil(id);
+    }
+});
+
+// Fonction de suppression
+function supprimerProfil(id) {
+    profiles = profiles.filter(profil => profil.id !== id);
+    addProfilesToLocalStorage();
+    AffichierProfiles(profiles);
+}
+
+// Fonction de modification
+function modifierProfil(id) {
+    const profil = profiles.find(p => p.id === id);
+    if (!profil) return;
+
+    // Remplir le formulaire avec les données existantes
+    firstNameInput.value = profil.firstName;
+    lastNameInput.value = profil.lastName;
+    sexeInput.value = profil.sexe;
+
+    // Supprimer l'ancien profil pour le remplacer après édition
+    profiles = profiles.filter(p => p.id !== id);
+    addProfilesToLocalStorage();
+    AffichierProfiles(profiles);
+}
